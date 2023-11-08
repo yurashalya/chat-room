@@ -1,0 +1,17 @@
+{
+	"tabWidth": 4,
+	"useTabs": true,
+	"arrowParens": "avoid",
+	"trailingComma": "all",
+	"printWidth": 80,
+	"endOfLine": "lf",
+	"semi": true,
+	"overrides": [
+		{
+			"files": "*.css",
+			"options": {
+				"useTabs": true
+			}
+		}
+	]
+}

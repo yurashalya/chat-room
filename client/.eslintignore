@@ -1,0 +1,9 @@
+**/*.scss
+**/*.css
+**/*.otf
+**/*.png
+**/*.svg
+**/*.jpg
+**/*.json
+**/*.txt
+**/build
