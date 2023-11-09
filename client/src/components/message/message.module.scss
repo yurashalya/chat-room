@@ -1,7 +1,7 @@
 .messageContainer {
     display: flex;
     flex-direction: column;
-    padding: 15px;
+    padding: 10px 10px 5px 10px;
     background-color: #eeeaea;
     max-width: 96%;
     width: fit-content;
@@ -17,6 +17,6 @@
         color: black;
         word-wrap: break-word;
         font-size: 15px;
-
+        margin-bottom: 5px;
     }
 }

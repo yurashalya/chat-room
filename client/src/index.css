@@ -18,7 +18,15 @@ body {
 	grid-auto-rows: auto 1fr auto;
   }
   
-  main {
+main {
 	padding: 20px;
-  }
+}
   
+
+input:focus{
+  outline: none;
+}
+
+input::placeholder {
+  padding-left: 2px;
+}

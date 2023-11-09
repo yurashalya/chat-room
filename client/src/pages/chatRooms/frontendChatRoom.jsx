@@ -1,14 +1,23 @@
 import React from "react";
 import { useHistory } from "react-router-dom";
+import { useSelector, useDispatch } from "react-redux";
 
-import { Button, ChatRoom } from "components";
+import { Button, ChatRoom, FormChat } from "components";
+
+import { setRemoveFrontendChatRoom } from "store/actions/actionCreator";
 
 import styles from "./chatRoom.module.scss";
 
 const FrontendChat = () => {
 	const history = useHistory();
+	const dispatch = useDispatch();
+
+	const historyChat = useSelector(
+		store => store?.chatRooms?.frontendSupportRoom,
+	);
 
 	const handleLeftRoom = () => {
+		dispatch(setRemoveFrontendChatRoom());
 		history.push("/");
 	};
 
@@ -19,7 +28,8 @@ const FrontendChat = () => {
 				onClick={handleLeftRoom}
 				className={styles.leftButton}
 			/>
-			<ChatRoom />
+			<ChatRoom historyChat={historyChat} />
+			<FormChat />
 		</section>
 	);
 };

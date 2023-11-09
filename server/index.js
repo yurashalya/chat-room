@@ -1,4 +1,4 @@
-require('dotenv').config();
+require("dotenv").config();
 const express = require("express");
 const http = require("http");
 const WebSocket = require("ws");
@@ -12,62 +12,80 @@ const wss = new WebSocket.Server({ server });
 
 const predefinedRooms = ["backendSupport", "frontendSupport", "qaSupport"];
 const messageHistory = {
-    "backendSupport": [],
-    "frontendSupport": [],
-    "qaSupport": [],
+  backendSupport: [],
+  frontendSupport: [],
+  qaSupport: [],
 };
-const clientRooms = {};
 
+const clientRooms = new Map();
 
-
-wss.on('connection', (ws) => {
-  console.log('Client connected');
-  let currentRoom = null;
-
-  ws.send(JSON.stringify({ type: 'roomList', rooms: predefinedRooms }));
-
-  ws.on('message', (data) => {
+wss.on("connection", (ws) => {
+  ws.on("message", (data) => {
     const message = JSON.parse(data);
 
-    if (message.type === 'joinRoom') {
-      if (predefinedRooms.includes(message.room)) {
-        currentRoom = message.room;
-        clientRooms[ws] = currentRoom;
+    if (message.type === "joinRoom") {
+      const room = message.room;
 
-        ws.send(JSON.stringify({
-          type: 'history',
-          messages: messageHistory[currentRoom].slice(-10)
-        }));
+      if (predefinedRooms.includes(room)) {
+        clientRooms.set(ws, room);
+
+        ws.send(
+          JSON.stringify({
+            type: "history",
+            room: room,
+            messages: messageHistory[room].slice(-10) || messageHistory,
+          })
+        );
       } else {
-        ws.send(JSON.stringify({ type: 'error', message: 'Invalid room' }));
+        ws.send(JSON.stringify({ type: "error", message: "Invalid room" }));
       }
-    } else if (message.type === 'message') {
-      if (!message.name || message.name.trim() === '' || !message.text || message.text.trim() === '' || message.text.length > 255) {
-        ws.send(JSON.stringify({ type: 'error', message: 'Invalid message' }));
-        return;
+    } else if (message.type === "message") {
+      const room = clientRooms.get(ws);
+
+      if (
+        room &&
+        message.name &&
+        message.name.trim() !== "" &&
+        message.message &&
+        message.message.trim() !== "" &&
+        message.message.length <= 255
+      ) {
+        const messageToSend = {
+          name: message.name,
+          message: message.message,
+          room: room,
+          type: "message",
+        };
+
+        messageHistory[room].push(messageToSend);
+
+        broadcastMessage(room, messageToSend);
+      } else {
+        ws.send(
+          JSON.stringify({
+            type: "error",
+            message: "Invalid message or no room joined",
+          })
+        );
       }
-
-      const messageToSend = {
-        name: message.name,
-        text: message.text,
-        room: currentRoom,
-        type: 'message'
-      };
-
-      messageHistory[currentRoom].push(messageToSend);
-      wss.clients.forEach(client => {
-        if (client !== ws && clientRooms[client] === currentRoom && client.readyState === WebSocket.OPEN) {
-          client.send(JSON.stringify(messageToSend));
-        }
-      });
     }
   });
 
-  ws.on('close', () => {
-    delete clientRooms[ws];
-    console.log('Client disconnected');
+  ws.on("close", () => {
+    clientRooms.delete(ws);
   });
 });
+
+function broadcastMessage(room, message) {
+  wss.clients.forEach((client) => {
+    if (
+      clientRooms.get(client) === room &&
+      client.readyState === WebSocket.OPEN
+    ) {
+      client.send(JSON.stringify(message));
+    }
+  });
+}
 
 const PORT = process.env.PORT || 8080;
 server.listen(PORT, () => console.log(`Server started on port ${PORT}`));

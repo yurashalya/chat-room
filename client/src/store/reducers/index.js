@@ -3,13 +3,13 @@ import { createBrowserHistory } from "history";
 import { connectRouter } from "connected-react-router";
 
 import chatRooms from "./chatRooms";
-import counter from "./counter";
+import loader from "./loader";
 
 export const history = createBrowserHistory({ basename: "/" });
 
 const reducer = combineReducers({
 	chatRooms,
-	counter,
+	loader,
 	router: connectRouter(history),
 });
 

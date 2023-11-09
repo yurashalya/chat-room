@@ -1,13 +1,20 @@
 import React from "react";
 import { useHistory } from "react-router-dom";
+import { useSelector, useDispatch } from "react-redux";
 
-import { Button, ChatRoom } from "components";
+import { Button, ChatRoom, FormChat } from "components";
+
+import { setRemoveQaChatRoom } from "store/actions/actionCreator";
 
 import styles from "./chatRoom.module.scss";
 const QaChat = () => {
 	const history = useHistory();
+	const dispatch = useDispatch();
+
+	const historyChat = useSelector(store => store?.chatRooms?.qaSupportRoom);
 
 	const handleLeftRoom = () => {
+		dispatch(setRemoveQaChatRoom());
 		history.push("/");
 	};
 
@@ -18,7 +25,8 @@ const QaChat = () => {
 				onClick={handleLeftRoom}
 				className={styles.leftButton}
 			/>
-			<ChatRoom />
+			<ChatRoom historyChat={historyChat} />
+			<FormChat />
 		</section>
 	);
 };
