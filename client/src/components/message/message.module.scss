@@ -1,0 +1,22 @@
+.messageContainer {
+    display: flex;
+    flex-direction: column;
+    padding: 15px;
+    background-color: #eeeaea;
+    max-width: 96%;
+    width: fit-content;
+    margin-bottom: 20px;
+
+    .title {
+        margin: 0;
+        color: black;
+        font-weight: 600;
+    }
+
+    .message {
+        color: black;
+        word-wrap: break-word;
+        font-size: 15px;
+
+    }
+}

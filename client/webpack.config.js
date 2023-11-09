@@ -6,6 +6,7 @@ module.exports = {
 	output: {
 		path: path.join(__dirname, "/dist"),
 		filename: "bundle.js",
+		publicPath: "/",
 	},
 	module: {
 		rules: [
@@ -69,8 +70,21 @@ module.exports = {
 			template: "./public/index.html",
 		}),
 	],
+	// devServer: {
+	// 	historyApiFallback: true,
+	// 	publicPath: "/",
+	// 	port: 3000,
+	// 	hot: true,
+	// },
 	devServer: {
 		port: 3000,
+		static: {
+			directory: path.join(__dirname, "dist"),
+		},
+		historyApiFallback: {
+			index: "index.html",
+			disableDotRule: true,
+		},
 		hot: true,
 	},
 };

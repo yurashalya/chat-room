@@ -1,3 +1,6 @@
-import Home from "./home";
+import HomePage from "./home";
+import BackendChatRoom from "./chatRooms/backendChatRoom";
+import FrontendChatRoom from "./chatRooms/frontendChatRoom";
+import QaChatRoom from "./chatRooms/qaChatRoom";
 
-export { Home };
+export { HomePage, BackendChatRoom, FrontendChatRoom, QaChatRoom };

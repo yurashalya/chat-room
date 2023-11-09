@@ -5,7 +5,7 @@ import { connectRouter } from "connected-react-router";
 import chatRooms from "./chatRooms";
 import counter from "./counter";
 
-export const history = createBrowserHistory();
+export const history = createBrowserHistory({ basename: "/" });
 
 const reducer = combineReducers({
 	chatRooms,
