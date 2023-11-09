@@ -2,14 +2,19 @@ import React from "react";
 import clsx from "clsx";
 import { useSelector } from "react-redux";
 
-import { Message, Loader } from "components";
+import { Message, Loader, Title } from "components";
 
 import styles from "./chatRoom.module.scss";
 
-const Chat = ({ historyChat }) => {
+const Chat = ({ historyChat, homeTitle }) => {
 	const isLoading = useSelector(store => store?.loader?.isDataLoading);
+
+	const lastTenMessages =
+		historyChat?.length <= 10 ? historyChat : historyChat?.slice(-10);
+
 	return (
 		<>
+			<Title title={homeTitle} />
 			<section
 				className={clsx(
 					styles.chatContainer,
@@ -24,7 +29,7 @@ const Chat = ({ historyChat }) => {
 					<>
 						{historyChat.length > 0 ? (
 							<>
-								{historyChat?.map((chat, index) => (
+								{lastTenMessages?.map((chat, index) => (
 									<React.Fragment key={index}>
 										<Message chat={chat} />
 									</React.Fragment>

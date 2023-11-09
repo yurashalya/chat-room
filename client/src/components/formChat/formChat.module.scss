@@ -1,16 +1,12 @@
 .sendInfoContainer {
     display: flex;
-    max-width: 777px;
-    width: 777px;
+    justify-content: space-between;
+    max-width: 775px;
+    width: 775px;
 
     .sendMessageButton {
         background-color: #1671d8;
         border: 1px solid #1671d8;
         border-radius: 0;
-    }
-
-    .field {
-        padding-left: 10px;
-        width: 43%;
     }
 }

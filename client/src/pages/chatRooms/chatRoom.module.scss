@@ -1,12 +1,16 @@
+.chatRoomTitle {
+    text-align: center;
+    text-transform: uppercase;
+}
+
 .chatRoomContainer {
     display: flex;
     flex-direction: column;
-    height: 100vh;
+    height: 80vh;
     justify-content: center;
     align-items: center;
 
     .leftButton {
-       margin-bottom: 20px;
        background-color: #d81616;
        border: 1px solid #f10f2d;
     }

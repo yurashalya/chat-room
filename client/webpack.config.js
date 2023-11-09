@@ -63,6 +63,9 @@ module.exports = {
 			components: path.resolve(__dirname, "src/components/"),
 			pages: path.resolve(__dirname, "src/pages/"),
 			store: path.resolve(__dirname, "src/store/"),
+			services: path.resolve(__dirname, "src/services/"),
+			hooks: path.resolve(__dirname, "src/hooks/"),
+			globalConstants: path.resolve(__dirname, "src/globalConstants/"),
 		},
 	},
 	plugins: [

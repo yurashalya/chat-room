@@ -2,7 +2,7 @@ import React from "react";
 import { useHistory } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 
-import { Button, ChatRoom, FormChat } from "components";
+import { Button, ChatRoom, FormChat, Title } from "components";
 
 import { setRemoveBackendChatRoom } from "store/actions/actionCreator";
 
@@ -22,15 +22,18 @@ const BackendChat = () => {
 	};
 
 	return (
-		<section className={styles.chatRoomContainer}>
-			<Button
-				title="Left"
-				onClick={handleLeftRoom}
-				className={styles.leftButton}
-			/>
-			<ChatRoom historyChat={historyChat} />
-			<FormChat />
-		</section>
+		<>
+			<Title className={styles.chatRoomTitle} title="Backend chat room" />
+			<section className={styles.chatRoomContainer}>
+				<Button
+					title="Left"
+					onClick={handleLeftRoom}
+					className={styles.leftButton}
+				/>
+				<ChatRoom historyChat={historyChat} />
+				<FormChat />
+			</section>
+		</>
 	);
 };
 

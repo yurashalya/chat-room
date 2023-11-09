@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { useSelector } from "react-redux";
 
-import { Button } from "components";
+import { Button, Field } from "components";
 
 import { sendMessageToWebSocket } from "services";
 
@@ -12,17 +12,38 @@ const FormChat = () => {
 
 	const [nickname, setNickname] = useState("");
 	const [message, setMessage] = useState("");
+	const [errorName, setErrorName] = useState("");
+	const [errorMessage, setErrorMessage] = useState("");
 
 	const onChangeNameHandler = name => {
+		if (errorMessage) setErrorName("");
+		if (name) setErrorName("");
 		setNickname(name);
 	};
 
 	const onChangeMessageHandler = message => {
+		if (errorName) setErrorMessage("");
+		if (message) setErrorMessage("");
 		setMessage(message);
 	};
 
 	const handleSendMessage = e => {
 		e.preventDefault();
+
+		if (nickname.trim() === "") {
+			setErrorName("Nickname field is required");
+			return;
+		}
+
+		if (message.trim() === "") {
+			setErrorMessage("Message field is required");
+			return;
+		}
+
+		if (message.length > 255) {
+			setErrorMessage("Message cannot exceed 255 characters.");
+			return;
+		}
 
 		const messageData = {
 			name: nickname,
@@ -37,23 +58,23 @@ const FormChat = () => {
 
 	return (
 		<form className={styles.sendInfoContainer} onSubmit={handleSendMessage}>
-			<input
+			<Field
 				type="text"
 				name="name"
 				id="name"
+				error={errorName}
 				value={nickname}
 				placeholder="Nickname"
-				className={styles.field}
-				onChange={e => onChangeNameHandler(e.target.value)}
+				onChange={onChangeNameHandler}
 			/>
-			<input
+			<Field
 				type="text"
 				name="message"
 				id="message"
+				error={errorMessage}
 				value={message}
 				placeholder="Message"
-				className={styles.field}
-				onChange={e => onChangeMessageHandler(e.target.value)}
+				onChange={onChangeMessageHandler}
 			/>
 			<Button
 				title="Send"
